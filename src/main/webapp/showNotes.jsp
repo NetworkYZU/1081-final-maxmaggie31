@@ -1,3 +1,4 @@
+<%@page import="lendle.courses.wp.finalexam.Logins"%>
 <%@page import="lendle.courses.wp.finalexam.Note"%>
 <%@page import="lendle.courses.wp.finalexam.UserData"%>
 <%@ page contentType="text/html" pageEncoding="utf-8"%>
@@ -19,22 +20,33 @@
     </head>
     <body>
         <a href="logout.jsp">登出</a><br/>
-      
-      <!--
-      將目前 session 中記錄的 user 的 notes 顯示在下列表格中
-      (20%)
-      -->
-      <table border="1" style="width: 90%">
-          <thead>
-              <tr>
-                  <th>Date</th>
-                  <th>Title</th>
-                  <th>Content</th>
-              </tr>
-          </thead>
-          <tbody>
-              
-          </tbody>
-      </table>
+
+        <!--
+        將目前 session 中記錄的 user 的 notes 顯示在下列表格中
+        (20%)
+        -->
+        <table border="1" style="width: 90%">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    String user = (String) session.getAttribute("user");
+                    List<Note> notes = (new Logins()).getUserData(user).getNotes();
+                    for (int i = 0; i < notes.size(); i++) {
+                        Note note = notes.get(i);
+                        out.println("<tr>");
+                        out.println("<td>" + note.getHeader().getDate() + "</td>");
+                        out.println("<td>" + note.getHeader().getTitle() + "</td>");
+                        out.println("<td>" + note.getContent() + "</td>");
+                        out.println("</tr>");
+                    }
+                %>
+            </tbody>
+        </table>
     </body>
 </html>
